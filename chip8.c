@@ -10,7 +10,7 @@
 #define SCREEN_HEIGHT 32 * 8
 #define REFRESH_RATE 700
 
-static int keymap[0x10] = 
+static int keymap[16] = 
 {
     SDL_SCANCODE_0,
     SDL_SCANCODE_1,
@@ -76,16 +76,15 @@ void initialise_chip8(CHP *chip8)
 
 void load_rom(const char* rom_path, CHP *chip8)
 {
-    FILE *fptr = fopen(rom_path, "rb");
+    FILE *rom = fopen(rom_path, "rb");
 
-    if (fptr == NULL)
+    if (rom == NULL)
     {
         printf("Invalid ROM path: '%s'\n", rom_path);
     } else {
         // Load the program into the program space of memory
-        fread(chip8->memory + 0x200, sizeof(char), sizeof(chip8->memory) - 0x200, fptr);
-
-        fclose(fptr);
+        fread(chip8->memory + 0x200, sizeof(unsigned char), sizeof(chip8->memory) - 0x200, rom);
+        fclose(rom);
     }
 }
 
@@ -97,8 +96,7 @@ unsigned short fetch(CHP *chip8)
     unsigned short small = (unsigned short)chip8->memory[chip8->PC + 1];
 	
     // Combine large and small bytes to get final opcode
-    // 0x00FF is ANDed with small to remove C sign extension
-    unsigned short opcode = large | (0x00FF & small);
+    unsigned short opcode = large | small;
 
     return opcode;
 }	
@@ -506,6 +504,7 @@ int main(int argc, char *argv[])
         SDL_Delay(1000/REFRESH_RATE);
     }
 
+    SDL_DestroyRenderer(app.renderer);
     SDL_DestroyWindow(app.window);
     SDL_Quit();
 
