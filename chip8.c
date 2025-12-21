@@ -302,13 +302,11 @@ void decode(unsigned short opcode, CHP *chip8)
                             pixel_coords[x][y] = 0; // Turn off the pixel
                             SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
                             draw_pixel(x, y);
-                            SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
                         } else
                         {
                             pixel_coords[x][y] = 1; // Turn on the pixel 
                             SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
                             draw_pixel(x, y);
-                            SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
                         }
                     }
                 }	
