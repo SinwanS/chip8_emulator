@@ -8,7 +8,7 @@
 
 #define SCREEN_WIDTH 64 * 8
 #define SCREEN_HEIGHT 32 * 8
-#define REFRESH_RATE 700
+#define REFRESH_RATE 600
 
 static int keymap[16] = 
 {
@@ -316,7 +316,7 @@ void decode(unsigned short opcode, CHP *chip8)
         case 0xE000:
             x = (opcode & 0x0F00) >> 8;
 			
-            printf("Need to press button: %d\n", chip8->V[x]);
+            //printf("Need to press button: %d\n", chip8->V[x]);
 
             switch (opcode & 0x00FF)
             {
